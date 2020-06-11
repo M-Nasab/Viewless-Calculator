@@ -13,10 +13,14 @@ const keys = {
     SUBTRACT: '-',
     MULTIPLY: '×',
     DIVIDE: '÷',
-    EQUALS: '='
+    EQUALS: '=',
+    DOT: '.',
 };
 
 export default function Calculator () {
+    let outputStack = [0];
+    let cursor = 0;
+
     function isNumber (key) {
         const numberKeys = [
             keys.NUM_0,
@@ -34,8 +38,6 @@ export default function Calculator () {
         return numberKeys.includes(key);
     }
 
-    let outputStack = [0];
-
     function display () {
         return outputStack[0];
     }
@@ -51,7 +53,19 @@ export default function Calculator () {
         }
 
         if (isNumber(key)) {
-            outputStack[0] = outputStack[0] * 10 + key;
+            let currentValue = outputStack[0];
+            let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key*Math.pow(10, cursor);
+            outputStack[0] = finalValue;
+
+            if (cursor < 0) {
+                cursor--;
+            }
+        }
+
+        if (key === keys.DOT) {
+            if (cursor === 0) {
+                cursor = -1;
+            }
         }
 
         return this;

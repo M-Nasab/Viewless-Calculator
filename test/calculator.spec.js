@@ -51,4 +51,14 @@ describe('Calculator', function () {
         expect(calculator.display()).to.equal(526);
     });
 
+    it('Should add digits to fraction part', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.DOT)
+        .pressKey(calculator.keys.NUM_2)
+        .pressKey(calculator.keys.NUM_5);
+
+        expect(calculator.display()).to.equal(4.25);
+    });
+
 });
