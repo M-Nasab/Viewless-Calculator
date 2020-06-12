@@ -22,6 +22,7 @@ export default function Calculator () {
     let operators = [];
     let cursor = 0;
     let displayPointer = 0;
+    let nextDisplayPointer = 0;
     let shouldReplace = false;
 
     function isNumber (key) {
@@ -61,6 +62,10 @@ export default function Calculator () {
             case keys.MULTIPLY:
                 return firstOperand * secondOperand;
             case keys.DIVIDE:
+                if (secondOperand === 0) {
+                    throw new Error('division by zero');
+                }
+
                 return firstOperand / secondOperand;
             default:
                 throw new Error("opration is not valid");
@@ -68,7 +73,7 @@ export default function Calculator () {
     }
 
     function doOperation () {
-        if (operators.length) {
+        if (operators[0]) {
             const operation = operators[0];
             const firstOperand = operands[0];
             const secondOperand = operands[1];
@@ -98,10 +103,10 @@ export default function Calculator () {
         }
 
         if (isNumber(key)) {
-            if (displayPointer === 0 && operators.length) {
-                operands.push(0);
+            if (nextDisplayPointer !== displayPointer) {
+                operands[nextDisplayPointer] = 0;
                 cursor = 0;
-                displayPointer = 1;
+                displayPointer = nextDisplayPointer;
             }
 
             let currentValue = !shouldReplace ? operands[displayPointer] : 0;
@@ -120,10 +125,12 @@ export default function Calculator () {
             }
 
             operators[0] = key;
+            nextDisplayPointer = 1;
         }
 
         if (key === keys.EQUALS) {
             doOperation();
+            nextDisplayPointer = 0;
         }
 
         if (key === keys.DOT) {

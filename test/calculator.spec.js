@@ -156,4 +156,89 @@ describe('Calculator', function () {
 
         expect(calculator.display()).to.equal(9);
     });
+
+    it('Should be able to start new operation after the previous one has finished by pressing \'=\'', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_5)
+        .pressKey(calculator.keys.MULTIPLY)
+        .pressKey(calculator.keys.NUM_6)
+        .pressKey(calculator.keys.EQUALS)
+        .pressKey(calculator.keys.NUM_8)
+        .pressKey(calculator.keys.SUBTRACT)
+        .pressKey(calculator.keys.NUM_3)
+        .pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(5);
+    });
+
+    it('Should do multiple binary operations sequently', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_9)
+        .pressKey(calculator.keys.MULTIPLY)
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.NUM_1)
+        .pressKey(calculator.keys.NUM_0)
+        .pressKey(calculator.keys.SUBTRACT)
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.ADD);
+
+        expect(calculator.display()).to.equal(42);
+    });
+
+    it('Should throw error on devision by zero', function () {
+
+        const calculate = () => {
+            calculator
+            .pressKey(calculator.keys.NUM_8)
+            .pressKey(calculator.keys.NUM_5)
+            .pressKey(calculator.keys.DIVIDE)
+            .pressKey(calculator.keys.NUM_0)
+            .pressKey(calculator.keys.EQUALS);
+        };
+
+        expect(calculate).to.throw();
+    });
+
+    describe('Binary Operations', function () {
+        it('Should do addition correctly', function () {
+            calculator
+            .pressKey(calculator.keys.NUM_4)
+            .pressKey(calculator.keys.ADD)
+            .pressKey(calculator.keys.NUM_6)
+            .pressKey(calculator.keys.EQUALS);
+
+            expect(calculator.display()).to.equal(10);
+        });
+
+        it('Should do subtraction correctly', function () {
+            calculator
+            .pressKey(calculator.keys.NUM_9)
+            .pressKey(calculator.keys.SUBTRACT)
+            .pressKey(calculator.keys.NUM_6)
+            .pressKey(calculator.keys.EQUALS);
+
+            expect(calculator.display()).to.equal(3);
+        });
+
+        it('Should do multiplication correctly', function () {
+            calculator
+            .pressKey(calculator.keys.NUM_9)
+            .pressKey(calculator.keys.MULTIPLY)
+            .pressKey(calculator.keys.NUM_6)
+            .pressKey(calculator.keys.EQUALS);
+
+            expect(calculator.display()).to.equal(54);
+        });
+
+        it('Should do division correctly', function () {
+            calculator
+            .pressKey(calculator.keys.NUM_9)
+            .pressKey(calculator.keys.DIVIDE)
+            .pressKey(calculator.keys.NUM_6)
+            .pressKey(calculator.keys.EQUALS);
+
+            expect(calculator.display()).to.equal(1.5);
+        });
+    });
 });
