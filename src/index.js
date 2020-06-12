@@ -67,6 +67,22 @@ export default function Calculator () {
         }
     }
 
+    function doOperation () {
+        if (operators.length) {
+            const operation = operators[0];
+            const firstOperand = operands[0];
+            const secondOperand = operands[1];
+
+            const result = firstOperand !== undefined && secondOperand !== undefined ? calculate(firstOperand, secondOperand, operation) : firstOperand;
+
+            operands[0] = result;
+        }
+
+        displayPointer = 0;
+        shouldReplace = true;
+        cursor = 0;
+    }
+
     function display () {
         return operands[displayPointer];
     }
@@ -99,23 +115,15 @@ export default function Calculator () {
         }
 
         if (isBinaryOperator(key)) {
+            if (displayPointer === 1) {
+                doOperation();
+            }
+
             operators[0] = key;
         }
 
         if (key === keys.EQUALS) {
-            if (operators.length) {
-                const operation = operators[0];
-                const firstOperand = operands[0];
-                const secondOperand = operands[1];
-
-                const result = firstOperand !== undefined && secondOperand !== undefined ? calculate(firstOperand, secondOperand, operation) : firstOperand;
-
-                operands[0] = result;
-            }
-
-            displayPointer = 0;
-            shouldReplace = true;
-            cursor = 0;
+            doOperation();
         }
 
         if (key === keys.DOT) {

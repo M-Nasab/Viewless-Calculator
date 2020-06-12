@@ -133,4 +133,27 @@ describe('Calculator', function () {
 
         expect(calculator.display()).to.equal(35);
     });
+
+    it('Should finish the previous operation and show the result if exists when a binary operation key is pressed', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_7)
+        .pressKey(calculator.keys.MULTIPLY)
+        .pressKey(calculator.keys.NUM_8)
+        .pressKey(calculator.keys.ADD);
+
+        expect(calculator.display()).to.equal(56);
+    });
+
+    it('Should not repeat the operation if the operator button is pressed multiple times', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_5)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.ADD);
+
+        expect(calculator.display()).to.equal(9);
+    });
 });
