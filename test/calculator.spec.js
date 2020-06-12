@@ -61,4 +61,76 @@ describe('Calculator', function () {
         expect(calculator.display()).to.equal(4.25);
     });
 
+    it('Should start getting new input if user presses binary operator keys', function () {
+        calculator.pressKey(calculator.keys.NUM_3).pressKey(calculator.keys.NUM_2);
+
+        calculator.pressKey(calculator.keys.ADD);
+
+        calculator.pressKey(calculator.keys.NUM_8).pressKey(calculator.keys.NUM_5);
+
+        expect(calculator.display()).to.equal(85);
+    });
+
+    it('Should show the operation result if \'=\' button is pressed after both operands have been entered', function () {
+        calculator.pressKey(calculator.keys.NUM_3).pressKey(calculator.keys.NUM_2);
+
+        calculator.pressKey(calculator.keys.SUBTRACT);
+
+        calculator.pressKey(calculator.keys.NUM_8).pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(24);
+    });
+
+    it('Should replace the operation if a binary operation key is pressed right after another one', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.MULTIPLY)
+        .pressKey(calculator.keys.NUM_3)
+        .pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(12);
+    });
+
+    it('Should return the first operand of the second operand is not provided and the operation and equals button have been pressed', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.NUM_7)
+        .pressKey(calculator.keys.MULTIPLY)
+        .pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(47);
+    });
+
+    it('Should get new input after \'=\' is pressed', function () {
+        calculator.pressKey(calculator.keys.NUM_3).pressKey(calculator.keys.NUM_2).pressKey(calculator.keys.EQUALS);
+        calculator.pressKey(calculator.keys.NUM_1);
+        expect(calculator.display()).to.equal(1);
+    });
+
+    it('Should not continue to get fractions after \'=\' has been pressed', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_3)
+        .pressKey(calculator.keys.DOT)
+        .pressKey(calculator.keys.NUM_7)
+        .pressKey(calculator.keys.NUM_6)
+        .pressKey(calculator.keys.EQUALS)
+        .pressKey(calculator.keys.NUM_5)
+        .pressKey(calculator.keys.NUM_9)
+
+        expect(calculator.display()).to.equal(59);
+    });
+
+    it('Should repeat the previous operation if the \'=\' is pressed', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_2)
+        .pressKey(calculator.keys.NUM_3)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.NUM_4)
+        .pressKey(calculator.keys.EQUALS)
+        .pressKey(calculator.keys.EQUALS)
+        .pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(35);
+    });
 });

@@ -18,8 +18,11 @@ const keys = {
 };
 
 export default function Calculator () {
-    let outputStack = [0];
+    let operands = [0];
+    let operators = [];
     let cursor = 0;
+    let displayPointer = 0;
+    let shouldReplace = false;
 
     function isNumber (key) {
         const numberKeys = [
@@ -38,8 +41,34 @@ export default function Calculator () {
         return numberKeys.includes(key);
     }
 
+    function isBinaryOperator (key) {
+        const binaryOperators = [
+            keys.ADD,
+            keys.SUBTRACT,
+            keys.DIVIDE,
+            keys.MULTIPLY
+        ];
+
+        return binaryOperators.includes(key);
+    }
+
+    function calculate(firstOperand, secondOperand, operation) {
+        switch (operation) {
+            case keys.ADD:
+                return firstOperand + secondOperand;
+            case keys.SUBTRACT:
+                return firstOperand - secondOperand;
+            case keys.MULTIPLY:
+                return firstOperand * secondOperand;
+            case keys.DIVIDE:
+                return firstOperand / secondOperand;
+            default:
+                throw new Error("opration is not valid");
+        }
+    }
+
     function display () {
-        return outputStack[0];
+        return operands[displayPointer];
     }
 
     function pressKey (key) {
@@ -53,13 +82,40 @@ export default function Calculator () {
         }
 
         if (isNumber(key)) {
-            let currentValue = outputStack[0];
+            if (displayPointer === 0 && operators.length) {
+                operands.push(0);
+                cursor = 0;
+                displayPointer = 1;
+            }
+
+            let currentValue = !shouldReplace ? operands[displayPointer] : 0;
             let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key*Math.pow(10, cursor);
-            outputStack[0] = finalValue;
+            operands[displayPointer] = finalValue;
+            shouldReplace = false;
 
             if (cursor < 0) {
                 cursor--;
             }
+        }
+
+        if (isBinaryOperator(key)) {
+            operators[0] = key;
+        }
+
+        if (key === keys.EQUALS) {
+            if (operators.length) {
+                const operation = operators[0];
+                const firstOperand = operands[0];
+                const secondOperand = operands[1];
+
+                const result = firstOperand !== undefined && secondOperand !== undefined ? calculate(firstOperand, secondOperand, operation) : firstOperand;
+
+                operands[0] = result;
+            }
+
+            displayPointer = 0;
+            shouldReplace = true;
+            cursor = 0;
         }
 
         if (key === keys.DOT) {
