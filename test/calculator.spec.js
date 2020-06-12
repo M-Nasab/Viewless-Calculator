@@ -200,7 +200,7 @@ describe('Calculator', function () {
         expect(calculate).to.throw();
     });
 
-    describe('Binary Operations', function () {
+    describe('Binary Operators', function () {
         it('Should do addition correctly', function () {
             calculator
             .pressKey(calculator.keys.NUM_4)
@@ -239,6 +239,41 @@ describe('Calculator', function () {
             .pressKey(calculator.keys.EQUALS);
 
             expect(calculator.display()).to.equal(1.5);
+        });
+    });
+
+    it('Should apply the unary operator if input is the first operand', function () {
+        calculator.pressKey(calculator.keys.NUM_9).pressKey(calculator.keys.SQRT).pressKey(calculator.keys.EQUALS);
+        expect(calculator.display()).to.equal(3);
+    });
+
+    it('Should apply the unary operator if input is the second operand', function () {
+        calculator
+        .pressKey(calculator.keys.NUM_6)
+        .pressKey(calculator.keys.ADD)
+        .pressKey(calculator.keys.NUM_1)
+        .pressKey(calculator.keys.NUM_6)
+        .pressKey(calculator.keys.SQRT)
+        .pressKey(calculator.keys.EQUALS);
+
+        expect(calculator.display()).to.equal(10);
+    });
+
+    describe('Unary Operators', function () {
+        it('Should change sign', function () {
+            calculator.pressKey(calculator.keys.NUM_7).pressKey(calculator.keys.CHS);
+
+            expect(calculator.display()).to.equal(-7);
+        });
+
+        it('Should return square root', function () {
+            calculator
+            .pressKey(calculator.keys.NUM_2)
+            .pressKey(calculator.keys.NUM_5)
+            .pressKey(calculator.keys.NUM_6)
+            .pressKey(calculator.keys.SQRT);
+
+            expect(calculator.display()).to.equal(16);
         });
     });
 });
