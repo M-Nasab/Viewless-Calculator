@@ -1,5 +1,7 @@
 # Viewless Calculator
 
+[![Build Status](https://travis-ci.org/M-Nasab/Viewless-Calculator.svg?branch=master)](https://travis-ci.org/M-Nasab/Viewless-Calculator)
+
 Very simple calculator logic without any view, just to show internal mechanics of a basic immediate-excution calculator.
 
 For more information see:
