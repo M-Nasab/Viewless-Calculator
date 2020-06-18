@@ -17,7 +17,9 @@ var Calculator = (function () {
       MULTIPLY: '×',
       DIVIDE: '÷',
       EQUALS: '=',
-      DOT: '.'
+      DOT: '.',
+      SQRT: '√',
+      CHS: '±'
     };
     function Calculator() {
       var operands = [0];
@@ -35,6 +37,11 @@ var Calculator = (function () {
       function isBinaryOperator(key) {
         var binaryOperators = [keys.ADD, keys.SUBTRACT, keys.DIVIDE, keys.MULTIPLY];
         return binaryOperators.includes(key);
+      }
+
+      function isUnaryOperator(key) {
+        var unaryOperators = [keys.SQRT, keys.CHS];
+        return unaryOperators.includes(key);
       }
 
       function calculate(firstOperand, secondOperand, operation) {
@@ -56,7 +63,20 @@ var Calculator = (function () {
             return firstOperand / secondOperand;
 
           default:
-            throw new Error("opration is not valid");
+            throw new Error("operation is not valid");
+        }
+      }
+
+      function calculateUnaryOperation(operand, operator) {
+        switch (operator) {
+          case keys.SQRT:
+            return Math.sqrt(operand);
+
+          case keys.CHS:
+            return -operand;
+
+          default:
+            throw new Error("operation is not valid");
         }
       }
 
@@ -102,23 +122,20 @@ var Calculator = (function () {
           if (cursor < 0) {
             cursor--;
           }
-        }
-
-        if (isBinaryOperator(key)) {
+        } else if (isBinaryOperator(key)) {
           if (displayPointer === 1) {
             doOperation();
           }
 
           operators[0] = key;
           nextDisplayPointer = 1;
-        }
-
-        if (key === keys.EQUALS) {
+        } else if (isUnaryOperator(key)) {
+          var operand = operands[displayPointer];
+          operands[displayPointer] = calculateUnaryOperation(operand, key);
+        } else if (key === keys.EQUALS) {
           doOperation();
           nextDisplayPointer = 0;
-        }
-
-        if (key === keys.DOT) {
+        } else if (key === keys.DOT) {
           if (cursor === 0) {
             cursor = -1;
           }
