@@ -1,6 +1,7 @@
 # Viewless Calculator
 
 [![Build Status](https://travis-ci.org/M-Nasab/Viewless-Calculator.svg?branch=master)](https://travis-ci.org/M-Nasab/Viewless-Calculator)
+[![NPM Package](https://img.shields.io/npm/v/calculator-logic)](https://www.npmjs.com/package/calculator-logic)
 
 Very simple calculator logic without any view, just to show internal mechanics of a basic immediate-excution calculator.
 
