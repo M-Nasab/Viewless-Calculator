@@ -18,7 +18,8 @@ define(function () { 'use strict';
       EQUALS: '=',
       DOT: '.',
       SQRT: '√',
-      CHS: '±'
+      CHS: '±',
+      CLEAR: 'c'
     };
     function Calculator() {
       var operands = [0];
@@ -27,6 +28,15 @@ define(function () { 'use strict';
       var displayPointer = 0;
       var nextDisplayPointer = 0;
       var shouldReplace = false;
+
+      function clear() {
+        operands = [0];
+        operators = [];
+        cursor = 0;
+        displayPointer = 0;
+        nextDisplayPointer = 0;
+        shouldReplace = false;
+      }
 
       function isNumber(key) {
         var numberKeys = [keys.NUM_0, keys.NUM_1, keys.NUM_2, keys.NUM_3, keys.NUM_4, keys.NUM_5, keys.NUM_6, keys.NUM_7, keys.NUM_8, keys.NUM_9];
@@ -138,6 +148,8 @@ define(function () { 'use strict';
           if (cursor === 0) {
             cursor = -1;
           }
+        } else if (key === keys.CLEAR) {
+          clear();
         }
 
         return this;

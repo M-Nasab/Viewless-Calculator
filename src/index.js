@@ -17,6 +17,7 @@ const keys = {
     DOT: '.',
     SQRT: '√',
     CHS: '±',
+    CLEAR: 'c',
 };
 
 export default function Calculator () {
@@ -26,6 +27,15 @@ export default function Calculator () {
     let displayPointer = 0;
     let nextDisplayPointer = 0;
     let shouldReplace = false;
+
+    function clear () {
+        operands = [0];
+        operators = [];
+        cursor = 0;
+        displayPointer = 0;
+        nextDisplayPointer = 0;
+        shouldReplace = false;
+    }
 
     function isNumber (key) {
         const numberKeys = [
@@ -156,6 +166,8 @@ export default function Calculator () {
             if (cursor === 0) {
                 cursor = -1;
             }
+        } else if (key === keys.CLEAR) {
+            clear();
         }
 
         return this;
