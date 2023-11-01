@@ -1,8 +1,8 @@
 /**
  * List of available keys on the calculator
  *
- * @typedef {string} keys
- * @enum {keys}
+ * @readonly
+ * @enum {string|number}
  */
 const keys = {
     NUM_1: 1,
@@ -26,7 +26,7 @@ const keys = {
     CLEAR: 'c',
 };
 
-export default function Calculator () {
+export default function Calculator() {
     let operands = [0];
     let operators = [];
     let cursor = 0;
@@ -34,7 +34,7 @@ export default function Calculator () {
     let nextDisplayPointer = 0;
     let shouldReplace = false;
 
-    function clear () {
+    function clear() {
         operands = [0];
         operators = [];
         cursor = 0;
@@ -50,7 +50,7 @@ export default function Calculator () {
      *
      * @returns {boolean} returns true is the provided key is a number
      */
-    function isNumber (key) {
+    function isNumber(key) {
         const numberKeys = [
             keys.NUM_0,
             keys.NUM_1,
@@ -74,7 +74,7 @@ export default function Calculator () {
      *
      * @returns {boolean} returns true when the provided key is a binary operator
      */
-    function isBinaryOperator (key) {
+    function isBinaryOperator(key) {
         const binaryOperators = [
             keys.ADD,
             keys.SUBTRACT,
@@ -92,7 +92,7 @@ export default function Calculator () {
      *
      * @returns {boolean} returns true when the provided key is a unary operator
      */
-    function isUnaryOperator (key) {
+    function isUnaryOperator(key) {
         const unaryOperators = [
             keys.SQRT,
             keys.CHS,
@@ -137,7 +137,7 @@ export default function Calculator () {
      *
      * @returns {number}
      */
-    function calculateUnaryOperation (operand, operator) {
+    function calculateUnaryOperation(operand, operator) {
         switch (operator) {
             case keys.SQRT:
                 return Math.sqrt(operand);
@@ -148,7 +148,7 @@ export default function Calculator () {
         }
     }
 
-    function doOperation () {
+    function doOperation() {
         if (operators[0]) {
             const operation = operators[0];
             const firstOperand = operands[0];
@@ -169,7 +169,7 @@ export default function Calculator () {
      *
      * @returns {number}
      */
-    function display () {
+    function display() {
         return operands[displayPointer];
     }
 
@@ -177,9 +177,9 @@ export default function Calculator () {
      * Stacks a calculator key
      *
      * @param {number|string} key
-     * @returns {this}
+     * @returns {Calculator}
      */
-    function pressKey (key) {
+    function pressKey(key) {
 
         const isValidKey = Object.keys(keys).some((k) => {
             return keys[k] === key;
@@ -197,7 +197,7 @@ export default function Calculator () {
             }
 
             let currentValue = !shouldReplace ? operands[displayPointer] : 0;
-            let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key*Math.pow(10, cursor);
+            let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key * Math.pow(10, cursor);
             operands[displayPointer] = finalValue;
             shouldReplace = false;
 
