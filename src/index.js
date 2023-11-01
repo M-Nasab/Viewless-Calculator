@@ -1,3 +1,9 @@
+/**
+ * List of available keys on the calculator
+ *
+ * @typedef {string} keys
+ * @enum {keys}
+ */
 const keys = {
     NUM_1: 1,
     NUM_2: 2,
@@ -37,6 +43,13 @@ export default function Calculator () {
         shouldReplace = false;
     }
 
+    /**
+     * Determines if the provided calculator key is a number
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true is the provided key is a number
+     */
     function isNumber (key) {
         const numberKeys = [
             keys.NUM_0,
@@ -54,6 +67,13 @@ export default function Calculator () {
         return numberKeys.includes(key);
     }
 
+    /**
+     * Determines of the provided key is a binary operator
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true when the provided key is a binary operator
+     */
     function isBinaryOperator (key) {
         const binaryOperators = [
             keys.ADD,
@@ -65,6 +85,13 @@ export default function Calculator () {
         return binaryOperators.includes(key);
     }
 
+    /**
+     * Determines of the provided key is a unary operator
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true when the provided key is a unary operator
+     */
     function isUnaryOperator (key) {
         const unaryOperators = [
             keys.SQRT,
@@ -74,6 +101,15 @@ export default function Calculator () {
         return unaryOperators.includes(key);
     }
 
+    /**
+     * Performs a binary calculation
+     *
+     * @param {number} firstOperand
+     * @param {number} secondOperand
+     * @param {string} operation
+     *
+     * @returns {number}
+     */
     function calculate(firstOperand, secondOperand, operation) {
         switch (operation) {
             case keys.ADD:
@@ -93,6 +129,14 @@ export default function Calculator () {
         }
     }
 
+    /**
+     * Performs a unary calculation
+     *
+     * @param {number} operand
+     * @param {string} operator
+     *
+     * @returns {number}
+     */
     function calculateUnaryOperation (operand, operator) {
         switch (operator) {
             case keys.SQRT:
@@ -120,10 +164,21 @@ export default function Calculator () {
         cursor = 0;
     }
 
+    /**
+     * Returns the current display
+     *
+     * @returns {number}
+     */
     function display () {
         return operands[displayPointer];
     }
 
+    /**
+     * Stacks a calculator key
+     *
+     * @param {number|string} key
+     * @returns {this}
+     */
     function pressKey (key) {
 
         const isValidKey = Object.keys(keys).some((k) => {
