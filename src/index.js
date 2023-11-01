@@ -1,3 +1,9 @@
+/**
+ * List of available keys on the calculator
+ *
+ * @readonly
+ * @enum {string|number}
+ */
 const keys = {
     NUM_1: 1,
     NUM_2: 2,
@@ -20,7 +26,7 @@ const keys = {
     CLEAR: 'c',
 };
 
-export default function Calculator () {
+export default function Calculator() {
     let operands = [0];
     let operators = [];
     let cursor = 0;
@@ -28,7 +34,7 @@ export default function Calculator () {
     let nextDisplayPointer = 0;
     let shouldReplace = false;
 
-    function clear () {
+    function clear() {
         operands = [0];
         operators = [];
         cursor = 0;
@@ -37,7 +43,14 @@ export default function Calculator () {
         shouldReplace = false;
     }
 
-    function isNumber (key) {
+    /**
+     * Determines if the provided calculator key is a number
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true is the provided key is a number
+     */
+    function isNumber(key) {
         const numberKeys = [
             keys.NUM_0,
             keys.NUM_1,
@@ -54,7 +67,14 @@ export default function Calculator () {
         return numberKeys.includes(key);
     }
 
-    function isBinaryOperator (key) {
+    /**
+     * Determines of the provided key is a binary operator
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true when the provided key is a binary operator
+     */
+    function isBinaryOperator(key) {
         const binaryOperators = [
             keys.ADD,
             keys.SUBTRACT,
@@ -65,7 +85,14 @@ export default function Calculator () {
         return binaryOperators.includes(key);
     }
 
-    function isUnaryOperator (key) {
+    /**
+     * Determines of the provided key is a unary operator
+     *
+     * @param {number|string} key the calculator key to check
+     *
+     * @returns {boolean} returns true when the provided key is a unary operator
+     */
+    function isUnaryOperator(key) {
         const unaryOperators = [
             keys.SQRT,
             keys.CHS,
@@ -74,6 +101,15 @@ export default function Calculator () {
         return unaryOperators.includes(key);
     }
 
+    /**
+     * Performs a binary calculation
+     *
+     * @param {number} firstOperand
+     * @param {number} secondOperand
+     * @param {string} operation
+     *
+     * @returns {number}
+     */
     function calculate(firstOperand, secondOperand, operation) {
         switch (operation) {
             case keys.ADD:
@@ -93,7 +129,15 @@ export default function Calculator () {
         }
     }
 
-    function calculateUnaryOperation (operand, operator) {
+    /**
+     * Performs a unary calculation
+     *
+     * @param {number} operand
+     * @param {string} operator
+     *
+     * @returns {number}
+     */
+    function calculateUnaryOperation(operand, operator) {
         switch (operator) {
             case keys.SQRT:
                 return Math.sqrt(operand);
@@ -104,7 +148,7 @@ export default function Calculator () {
         }
     }
 
-    function doOperation () {
+    function doOperation() {
         if (operators[0]) {
             const operation = operators[0];
             const firstOperand = operands[0];
@@ -120,11 +164,22 @@ export default function Calculator () {
         cursor = 0;
     }
 
-    function display () {
+    /**
+     * Returns the current display
+     *
+     * @returns {number}
+     */
+    function display() {
         return operands[displayPointer];
     }
 
-    function pressKey (key) {
+    /**
+     * Stacks a calculator key
+     *
+     * @param {number|string} key
+     * @returns {Calculator}
+     */
+    function pressKey(key) {
 
         const isValidKey = Object.keys(keys).some((k) => {
             return keys[k] === key;
@@ -142,7 +197,7 @@ export default function Calculator () {
             }
 
             let currentValue = !shouldReplace ? operands[displayPointer] : 0;
-            let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key*Math.pow(10, cursor);
+            let finalValue = cursor === 0 ? currentValue * 10 + key : currentValue + key * Math.pow(10, cursor);
             operands[displayPointer] = finalValue;
             shouldReplace = false;
 
